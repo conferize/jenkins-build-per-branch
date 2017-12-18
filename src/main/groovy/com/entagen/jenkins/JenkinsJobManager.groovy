@@ -30,19 +30,27 @@ class JenkinsJobManager {
     }
 
     void syncWithRepo() {
+        println "----> 1"
         List<String> allBranchNames = gitApi.branchNames
+        println "----> 2"
         List<String> allJobNames = jenkinsApi.jobNames
+        println "----> 3"
 
         // ensure that there is at least one job matching the template pattern, collect the set of template jobs
         List<TemplateJob> templateJobs = findRequiredTemplateJobs(allJobNames)
+        println "----> 4"
 
         // create any missing template jobs and delete any jobs matching the template patterns that no longer have branches
         syncJobs(allBranchNames, allJobNames, templateJobs)
+        println "----> 5"
 
         // create any missing branch views, scoped within a nested view if we were given one
         if (!noViews) {
             syncViews(allBranchNames)
+            println "----> 6"
         }
+
+        println "----> 7"
     }
 
     public void syncJobs(List<String> allBranchNames, List<String> allJobNames, List<TemplateJob> templateJobs) {
