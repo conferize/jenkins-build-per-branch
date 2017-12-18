@@ -10,7 +10,9 @@ class GitApi {
         String command = "git ls-remote --heads ${gitUrl}"
         List<String> branchNames = []
 
+        println "#### 1"
         eachResultLine(command) { String line ->
+            println "#### 2 a"
             String branchNameRegex = "^.*\trefs/heads/(.*)\$"
             String branchName = line.find(branchNameRegex) { full, branchName -> branchName }
             Boolean selected = passesFilter(branchName)
@@ -18,8 +20,10 @@ class GitApi {
             // lines are in the format of: <SHA>\trefs/heads/BRANCH_NAME
             // ex: b9c209a2bf1c159168bf6bc2dfa9540da7e8c4a26\trefs/heads/master
             if (selected) branchNames << branchName
+            println "#### 2 b"
         }
 
+        println "#### 3"
         return branchNames
     }
 
@@ -32,20 +36,34 @@ class GitApi {
     // assumes all commands are "safe", if we implement any destructive git commands, we'd want to separate those out for a dry-run
     public void eachResultLine(String command, Closure closure) {
         println "executing command: $command"
+
+        println "$$$$$ 1"
         def process = command.execute()
+        println "$$$$$ 2"
         def inputStream = process.getInputStream()
+        println "$$$$$ 3"
         def gitOutput = ""
+        println "$$$$$ 4"
 
         while(true) {
+          println "$$$$$ 5 a"
           int readByte = inputStream.read()
+          println "$$$$$ 5 b"
           if (readByte == -1) break // EOF
+          println "$$$$$ 5 c"
           byte[] bytes = new byte[1]
+          println "$$$$$ 5 d"
           bytes[0] = readByte
+          println "$$$$$ 5 f"
           gitOutput = gitOutput.concat(new String(bytes))
+          println "$$$$$ 5 z"
         }
+        println "$$$$$ 6"
         process.waitFor()
 
+        println "$$$$$ 7"
         if (process.exitValue() == 0) {
+            println "$$$$$ 8"
             gitOutput.eachLine { String line ->
                closure(line)
           }
@@ -55,6 +73,7 @@ class GitApi {
             println errorText
             throw new Exception("Error executing command: $command -> $errorText")
         }
+        println "$$$$$ 10"
     }
 
 }
