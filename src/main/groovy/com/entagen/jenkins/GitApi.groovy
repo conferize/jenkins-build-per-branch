@@ -45,6 +45,10 @@ class GitApi {
         def gitOutput = ""
         println "xxxx 4"
 
+        for(e in env) {
+          println "$e = ${e}"
+        }
+
         while(true) {
           println "xxxx 5 a"
           int readByte = inputStream.read()
