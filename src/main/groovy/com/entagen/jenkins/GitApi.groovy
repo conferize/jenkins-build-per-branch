@@ -45,6 +45,7 @@ class GitApi {
         def gitOutput = ""
         println "xxxx 4"
 
+        def env = System.getEnv()
         for(e in env) {
           println "$e = ${e}"
         }
