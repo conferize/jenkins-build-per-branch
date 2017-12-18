@@ -37,33 +37,33 @@ class GitApi {
     public void eachResultLine(String command, Closure closure) {
         println "executing command: $command"
 
-        println "$$$$$ 1"
+        println "xxxx 1"
         def process = command.execute()
-        println "$$$$$ 2"
+        println "xxxx 2"
         def inputStream = process.getInputStream()
-        println "$$$$$ 3"
+        println "xxxx 3"
         def gitOutput = ""
-        println "$$$$$ 4"
+        println "xxxx 4"
 
         while(true) {
-          println "$$$$$ 5 a"
+          println "xxxx 5 a"
           int readByte = inputStream.read()
-          println "$$$$$ 5 b"
+          println "xxxx 5 b"
           if (readByte == -1) break // EOF
-          println "$$$$$ 5 c"
+          println "xxxx 5 c"
           byte[] bytes = new byte[1]
-          println "$$$$$ 5 d"
+          println "xxxx 5 d"
           bytes[0] = readByte
-          println "$$$$$ 5 f"
+          println "xxxx 5 f"
           gitOutput = gitOutput.concat(new String(bytes))
-          println "$$$$$ 5 z"
+          println "xxxx 5 z"
         }
-        println "$$$$$ 6"
+        println "xxxx 6"
         process.waitFor()
 
-        println "$$$$$ 7"
+        println "xxxx 7"
         if (process.exitValue() == 0) {
-            println "$$$$$ 8"
+            println "xxxx 8"
             gitOutput.eachLine { String line ->
                closure(line)
           }
@@ -73,7 +73,7 @@ class GitApi {
             println errorText
             throw new Exception("Error executing command: $command -> $errorText")
         }
-        println "$$$$$ 10"
+        println "xxxx 10"
     }
 
 }
